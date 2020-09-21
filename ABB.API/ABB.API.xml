@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ABB.API</name>
+    </assembly>
+    <members>
+        <member name="M:ABB.API.Controllers.EmployeeController.GetAllEmployees">
+            <summary>
+            Get all employess
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ABB.API.Controllers.EmployeeController.GetEmployeeById(System.Int32)">
+            <summary>
+            Get Specific employee by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ABB.API.Controllers.EmployeeController.AddEmployee(ABB.Entity.EmployeeEntity)">
+            <summary>
+            Create a new employee. Not required to send employeeid property. send it as 0
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ABB.API.Controllers.EmployeeController.UpdateEmployee(ABB.Entity.EmployeeEntity)">
+            <summary>
+            Update an employee. Please provide a valid employeeid in the request body
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ABB.API.Controllers.EmployeeController.DeleteEmployee(System.Int32)">
+            <summary>
+            Delete a specific employee by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

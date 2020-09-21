@@ -1,0 +1,3 @@
+﻿Run below command from PM console
+
+Scaffold-DbContext "Server=DESKTOP-2I0M8MM;Database=ABBTest;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir ContextModel -context DBContext  -Project ABB.Repository -Force
