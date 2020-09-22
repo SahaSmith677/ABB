@@ -5,11 +5,10 @@ using ABB.Interfaces.Services;
 using ABB.Repository.ContextModel;
 using ABB.Repository.Repository;
 using ABB.Services.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using Moq;
-//using System.Collections.Generic;
-//using System.Linq;
+using Moq;
 
 namespace ABB.UnitTest
 {
@@ -18,29 +17,10 @@ namespace ABB.UnitTest
     {
     
         /// <summary>
-        /// Get All Employees
+        /// Add  Employee
         /// </summary>
         [TestMethod]
         public  void TestMethod1()
-        {
-
-            var serviceProvider = new ServiceCollection()
-           .AddLogging()
-           .BuildServiceProvider();
-            DBContext dBContext = new DBContext();
-            IEmployeeRepository employeeRepository = new EmployeeRepository(dBContext);
-            IEmployeeService employeeService = new EmployeeService(employeeRepository);
-            EmployeeController obj = new EmployeeController(employeeService);
-            var result = obj.GetAllEmployees();
-            var data = result.Result;
-
-        }
-        /// <summary>
-        /// Add Employee
-        /// </summary>
-        [TestMethod]
- 
-        public  void TestMethod2()
         {
             EmployeeEntity entity = new EmployeeEntity()
             {
@@ -50,17 +30,25 @@ namespace ABB.UnitTest
                 Mobile = "8999878899",
                 Email = "sahasmith677@gmail.com"
             };
-            var serviceProvider = new ServiceCollection()
-                .AddLogging()
-                .BuildServiceProvider();
-            DBContext dBContext = new DBContext();
-            IEmployeeRepository employeeRepository = new EmployeeRepository(dBContext);
-            IEmployeeService employeeService = new EmployeeService(employeeRepository);
-            EmployeeController obj = new EmployeeController(employeeService);
-            var result =  obj.AddEmployee(entity);
-            dBContext.SaveChanges();
+
+            var mockSet = new Mock<DbSet<Employee>>();
+            var mockContext = new Mock<DBContext>();
+            mockContext.Setup(m => m.Employee).Returns(mockSet.Object);
+
+
+            var mockRepo = new Mock<EmployeeRepository>(mockContext.Object);
+          
+
+            var mockService = new Mock<EmployeeService>(mockRepo.Object);
+
+            EmployeeController obj = new EmployeeController(mockService.Object);
+            obj.AddEmployee(entity);
+
+            mockSet.Verify(m => m.Add(It.IsAny<Employee>()), Times.Once());
+            mockContext.Verify(m => m.SaveChanges(),Times.Once());
 
         }
+ 
         /// <summary>
         /// Update Employee
         /// </summary>
@@ -72,16 +60,25 @@ namespace ABB.UnitTest
                 EmployeeId = 1,
                 FirstName = "Smith",
                 MiddleName = "Kumar",
-                LastName = "Saha",
+                LastName = "Das",
                 Mobile = "8999878899",
                 Email = "sahasmith677@gmail.com"
             };
-            DBContext dBContext = new DBContext();
-            IEmployeeRepository employeeRepository = new EmployeeRepository(dBContext);
-            IEmployeeService employeeService = new EmployeeService(employeeRepository);
-            EmployeeController obj = new EmployeeController(employeeService);
-            var result =  obj.UpdateEmployee(entity);
-            Assert.AreEqual(result, true);
+            var mockSet = new Mock<DbSet<Employee>>();
+            var mockContext = new Mock<DBContext>();
+            mockContext.Setup(m => m.Employee).Returns(mockSet.Object);
+
+
+            var mockRepo = new Mock<EmployeeRepository>(mockContext.Object);
+
+
+            var mockService = new Mock<EmployeeService>(mockRepo.Object);
+
+            EmployeeController obj = new EmployeeController(mockService.Object);
+            obj.UpdateEmployee(entity);
+
+            mockSet.Verify(m => m.Add(It.IsAny<Employee>()), Times.Once());
+            mockContext.Verify(m => m.SaveChanges(), Times.Once());
 
         }
         /// <summary>
@@ -90,15 +87,21 @@ namespace ABB.UnitTest
         [TestMethod]
         public  void TestMethod4()
         {
-            var serviceProvider = new ServiceCollection()
-      .AddLogging()
-      .BuildServiceProvider();
-            DBContext dBContext = new DBContext();
-            IEmployeeRepository employeeRepository = new EmployeeRepository(dBContext);
-            IEmployeeService employeeService = new EmployeeService(employeeRepository);
-            EmployeeController obj = new EmployeeController(employeeService);
-            var result =  obj.DeleteEmployee(1);
-            Assert.AreEqual(result, true);
+            var mockSet = new Mock<DbSet<Employee>>();
+            var mockContext = new Mock<DBContext>();
+            mockContext.Setup(m => m.Employee).Returns(mockSet.Object);
+
+
+            var mockRepo = new Mock<EmployeeRepository>(mockContext.Object);
+
+
+            var mockService = new Mock<EmployeeService>(mockRepo.Object);
+
+            EmployeeController obj = new EmployeeController(mockService.Object);
+            obj.DeleteEmployee(1);
+
+            mockSet.Verify(m => m.Add(It.IsAny<Employee>()), Times.Once());
+            mockContext.Verify(m => m.SaveChanges(), Times.Once());
 
         }
     }

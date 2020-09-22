@@ -33,7 +33,7 @@ namespace ABB.Repository.Repository
                 };
                 _context.Employee.Add(employee);
 
-               var result= await _context.SaveChangesAsync();
+               var result=  _context.SaveChanges();
 
                 if (result == 1)
                     return entity;
